@@ -1,0 +1,1 @@
+const CONNECTION_STRING = "mongodb+srv://ishraaq:ishraaq@cluster0.y7ts6ev.mongodb.net/?retryWrites=true&w=majority"; 
