@@ -12,6 +12,7 @@ import auth from '../middleware/auth.js'
 
 const router =  express.Router(); 
 
+// get all users
 router.get("/all", async (req,res)=>{
 	try{
 		const users = await User.find({}); 
@@ -22,7 +23,8 @@ router.get("/all", async (req,res)=>{
 		return res.status(500).json({message:error.message});			
 	}
 }); 
-router.post("/signin", (req, res)=>{
+// sign in
+router.post("/signin", async (req, res)=>{
 	try{
 		const {email, mobile, password} = req.body; 
 		const user = await User.findOne({email:email}); 
@@ -42,8 +44,8 @@ router.post("/signin", (req, res)=>{
 		return res.status(500).json({message:error.message});
 	}
 })
-
-router.post("/signup", (req, res)=>{
+// sign up
+router.post("/signup",  async (req, res)=>{
 	try{
 		const {name, email, mobile, password, address. year, department, degree} = req.body; 
 		const x = await User.findOne({email:email}); 
@@ -92,8 +94,49 @@ router.post("/signup", (req, res)=>{
 		console.log(error); 
 		return res.status(500).json({message:error.message});
 	}
+}); 
+
+// update profile
+router.put("/profile", auth, async (req, res)=>{
+	try{
+		const {name, email, mobile, pfp, year, department, degree} = req.body; 
+		const user = await User.findOne({
+			name: name, 
+		}); 
+		if(!user){
+			return res.status(404).json({ msg: "No such user"});
+		}
+		const updatedUser = await User.findOneAndUpdate({
+			name:name, 
+		}, {
+			account:{
+				email:email?email:user.account.email, 
+				mobile:mobile?mobile:user.account.mobile, 
+				pfp:pfp?pfp:user.account.pfp, 
+			}, 
+			educationDetails:{
+				year:year?year:user.educationDetails.year, 
+				department:department?department:user.educationDetails.department, 
+				degree:degree?degree:user.educationDetails.degree, 
+			}, 
+		}); 
+		await updatedUser.save(); 
+		const token = jwt.sign({
+			name:name, 
+			id:user._id, 
+
+		}, "test", {
+			expiresIn:"24h"
+		}); 
+		return res.status(200).json({user:user, token:token}); 
+			
+	}
+	catch(error){
+		console.log(error); 
+		return res.status(500).json({message:error.message});
+	}
 })
-	
+
 	
 
 export default router; 
