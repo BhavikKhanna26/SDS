@@ -26,7 +26,7 @@ router.get("/all", async (req,res)=>{
 // sign in
 router.post("/signin", async (req, res)=>{
 	try{
-		const {email, mobile, password} = req.body; 
+		const {name, email, mobile, password} = req.body; 
 		const user = await User.findOne({email:email}); 
 		if(!user){
 			return res.status(404).json({ msg: "No such user"});
@@ -36,6 +36,8 @@ router.post("/signin", async (req, res)=>{
 			return res.status(404).json({ msg: "Password incorrect"});
 		}
 		const token = jwt.sign({name:name, id:user._id}, "test", {expiresIn: "1h"}); 
+		console.log(user) ;
+			
 		return res.status(200).json({user: user, token: token});
 			
 	}
@@ -47,7 +49,7 @@ router.post("/signin", async (req, res)=>{
 // sign up
 router.post("/signup",  async (req, res)=>{
 	try{
-		const {name, email, mobile, password, address. year, department, degree} = req.body; 
+		const {name, email, mobile, password, address, year, department, degree} = req.body; 
 		const x = await User.findOne({email:email}); 
 		if(x){
 			return res.status(404).json({ msg: "User already exists"});
@@ -86,6 +88,8 @@ router.post("/signup",  async (req, res)=>{
 		}, "test", {
 			expiresIn:"24h"
 		}); 
+		console.log(user) 
+			
 		return res.status(200).json({user:user, token:token}); 
 			
 		

@@ -5,6 +5,9 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 
+
+//route imports 
+import users from "./routes/users.js"; 
 //variable declartions
 const PORT = process.env.port || 8000;
 const MONGOOSE_USERNAME = "ishraaq";
@@ -30,5 +33,5 @@ mongoose
 		console.log(error.message);
 	});
 
-
+app.use("/users", users); 
 

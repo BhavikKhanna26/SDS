@@ -44,7 +44,7 @@ const userSchema = mongoose.Schema({
 	credit: {
 		type:Number, 
 		default:0, 
-	}
+	}, 
 	deliveries:[{
 		type:mongoose.Schema.Types.ObjectId, 
 		ref:"Delivery",

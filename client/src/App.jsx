@@ -1,0 +1,38 @@
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Router, Link } from "react-router-dom";
+
+// components import
+import Navigation from "./components/Navigation/Navigation.jsx";
+import Home from "./components/Home/Home.jsx";
+import Auth from "./components/Auth/Auth.jsx";
+import background from "./assets/background.jpeg"
+
+const App = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  return (
+    <div 
+      className="w-full h-screen relative" 
+      style={{
+        backgroundImage:`url(${background})`,
+        backgroundRepeat:'no-repeat',
+        backgroundPosition:"center", 
+        backgroundSize:"cover", 
+        position:"relative", 
+
+      }}
+    >
+      <BrowserRouter >
+        <Navigation />
+        <Switch>
+          
+          <Route exact path="/" component={Home}></Route>
+          <Route exact path="/auth" component={Auth}></Route>
+        </Switch>
+      </BrowserRouter>
+    </div>
+  );
+};
+export default App;
