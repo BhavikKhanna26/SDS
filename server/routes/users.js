@@ -35,7 +35,7 @@ router.post("/signin", async (req, res)=>{
 		if(!checkPass){
 			return res.status(404).json({ msg: "Password incorrect"});
 		}
-		const token = jwt.sign({email:email, id:user._id}, "test", {expiresIn: "1h"}); 
+		const token = jwt.sign({name:name, id:user._id}, "test", {expiresIn: "1h"}); 
 		return res.status(200).json({user: user, token: token});
 			
 	}
