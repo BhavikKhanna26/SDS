@@ -18,8 +18,12 @@ const userSchema = mongoose.Schema({
 		pfp:{
 			type:String, 
 		}, 
-	}
-	address:{
+		password:{
+			type:String, 
+			required:true, 
+		}, 
+	}, 
+	location:{
 		type:mongoose.Schema.Types.ObjectId, 
 		ref:"Location", 
 	}, 
@@ -37,6 +41,10 @@ const userSchema = mongoose.Schema({
 			required:true, 
 		}, 
 	}, 
+	credit: {
+		type:Number, 
+		default:0, 
+	}
 	deliveries:[{
 		type:mongoose.Schema.Types.ObjectId, 
 		ref:"Delivery",
