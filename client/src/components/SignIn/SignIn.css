@@ -1,0 +1,75 @@
+.SignIn{
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(../../assets/fortuneindia_2021-12_ed4253d2-7810-4724-93c5-9c36b9ada241_Food_Delivery.webp);
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+}
+
+.container{
+    border: 1px solid black;
+    padding: 30px 35px;
+    width: 400px;
+    text-align: center;
+    background-color: rgba(3, 3, 3, 0.797);
+    border-radius: 20px;
+    
+}
+
+.container h1{
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+
+.user-info{
+    margin-bottom: 50px;
+    padding: 10px;
+    font-weight: 600;
+}
+
+.user-info input{
+    border: 1px solid black;
+    margin: 5px;
+    border-radius: 10px;
+    padding: 5px;
+    transition: all 0.3s ease;
+}
+
+input:focus{
+    outline: none;
+    background-color: rgb(209, 208, 208);
+}
+
+.login-btn{
+    height: 40px;
+    width: 160px;
+    background-color: white;
+    text-align: center;
+    margin: auto;
+    transform: translateY(-20px);
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+.login-btn a{
+    color: black;
+}
+.login-btn h4{
+    transform: translateY(10px);
+}
+.login-btn:hover{
+    background-color: rgb(255, 200, 0);
+    color: black;
+    cursor: pointer;
+}
+
+a{
+    text-decoration: none;
+    color: rgb(210, 182, 0);
+}
