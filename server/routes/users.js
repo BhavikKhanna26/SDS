@@ -16,7 +16,7 @@ const router =  express.Router();
 router.get("/all", async (req,res)=>{
 	try{
 		const users = await User.find({}); 
-		return res.status(200).json({users});  
+		return res.status(200).json(users);  
 			
 	} catch(error){
 		console.log(error); 
@@ -27,13 +27,19 @@ router.get("/all", async (req,res)=>{
 router.post("/signin", async (req, res)=>{
 	try{
 		const {name, email, mobile, password} = req.body; 
-		const user = await User.findOne({email:email}); 
+		console.log(req.body) ; 
+			
+		const user = await User.findOne({name:name}); 
 		if(!user){
-			return res.status(404).json({ msg: "No such user"});
+			console.log("No user found") ; 
+				
+			return res.status(404).json({ message: "No such user"});
 		}
-		const checkPass = await bcrypt.compare(password, user.profile.password); 
+		const checkPass = await bcrypt.compare(String(password), user.account.password); 
 		if(!checkPass){
-			return res.status(404).json({ msg: "Password incorrect"});
+			console.log("PAssword incorrect") ; 
+				
+			return res.status(404).json({ message: "Password incorrect"});
 		}
 		const token = jwt.sign({name:name, id:user._id}, "test", {expiresIn: "1h"}); 
 		console.log(user) ;
@@ -57,7 +63,7 @@ router.post("/signup",  async (req, res)=>{
 		const hashedPassword = await bcrypt.hash(password, 10); 
 		let location = await Location.findOne({ address: address}); 
 		if(!location){
-			location = await Location.creaate({
+			location = await Location.create({
 				address:address, 
 				pic:[], 
 			}); 

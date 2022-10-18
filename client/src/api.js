@@ -12,6 +12,8 @@ axios.interceptors.request.use((req) => {
 
 // user links
 export const signIn = (formData) => {
+    console.log(formData) ; 
+        
     return axios
         .post(URL + "/users/signin", formData)
         .catch((error) => console.log(error));

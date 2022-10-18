@@ -37,19 +37,21 @@ const Auth = () => {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        // console.log(formData) 
+        console.log(formData); 
             
-        if(formData.confirmPassword !== formData.password){
+        if(formData.confirmPassword !== formData.password && !isSignIn){
             console.log(formData); 
             return ;
                 
         }
         if(isSignIn){
-            Actions.signIn(formData, history); 
+            // console.log(formData) 
+                
+            dispatch(Actions.signIn(formData, history)); 
             // window.location.reload(); 
         }
         else{
-            Actions.signUp(formData, history); 
+            dispatch(Actions.signUp(formData, history)); 
             // window.location.reload(); 
         }
     };
@@ -62,7 +64,7 @@ const Auth = () => {
     return (
         <div className="h-screen w-full ">
             <div
-                className={`bg-white m-auto h-auto w-96 mt-5 flex flex-col p-5`}
+                className={`bg-green-300 m-auto h-auto w-96 mt-5 mb-5 flex flex-col p-5`}
             >
                 <div className={`${!isSignIn && "hidden"}`}>
                     <h1 className="text-2xl text-center mb-2">Sign In</h1>
@@ -143,6 +145,14 @@ const Auth = () => {
                             value={formData.confirmPassword}
                             name="confirmPassword"
                             type="password"
+                            onChange={handleChange}
+                        ></input>
+                        <input
+                            className="p-2 w-11/12 mb-2"
+                            placeholder="Address"
+                            value={formData.address}
+                            name="address"
+                            type="text"
                             onChange={handleChange}
                         ></input>
                         <input

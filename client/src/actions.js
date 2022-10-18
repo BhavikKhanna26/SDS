@@ -33,10 +33,10 @@ export const endLoad = () => async (dispatch) =>{
 // sign in
 export const signIn =(formData, history) => async (dispatch) =>{
 	try{
-		console.log(formData)
-		const {data} = await api.signIn(formData); 
+		console.log(formData); 
+		const data = await api.signIn(formData); 
 		dispatch({type:"signIn", payload:data});
-		history.push("/") 
+		// history.push("/") 
 	}
 	catch(error){
 		console.log(error); 
@@ -45,11 +45,11 @@ export const signIn =(formData, history) => async (dispatch) =>{
 // sign up
 export const signUp =(formData, history) => async (dispatch) =>{
 	try{
-		console.log(formData)
+		// console.log(formData)
 		const data = await api.signUp(formData); 
-		// console.log(data)
+		console.log(data); 
 		dispatch({type:"signUp", payload:data});
-		history.push("/") 
+		// history.push("/") 
 	}
 	catch(error){
 		console.log(error); 

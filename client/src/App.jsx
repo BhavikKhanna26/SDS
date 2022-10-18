@@ -21,7 +21,8 @@ const App = () => {
         backgroundPosition:"center", 
         backgroundSize:"cover", 
         position:"relative", 
-
+        height:"auto", 
+        paddingBottom:"10px"
       }}
     >
       <BrowserRouter >
