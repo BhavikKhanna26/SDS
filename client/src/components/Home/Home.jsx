@@ -12,6 +12,8 @@ const Home = () =>{
     // console.log(location)
     const history = useHistory();
     const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem("user")));  
+    console.log(currentUser); 
+    	
     return (
     	<div></div>
     )

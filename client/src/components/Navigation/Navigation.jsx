@@ -12,12 +12,12 @@ const Navigation = () =>{
     // const navigate =useNavigate(); 
     // console.log(location)
     const history = useHistory();
-    const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem("user")));  
+    const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem("user"))).user;  
     const Profile = ()=>{
         if(currentUser){
             return (
                 <a href="/profile">
-                    <div className="">
+                    <div className="text-white">
                         <h1>{currentUser.name}</h1>
                     </div>
                 </a>

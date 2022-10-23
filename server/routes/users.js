@@ -35,7 +35,7 @@ router.post("/signin", async (req, res)=>{
 				
 			return res.status(404).json({ message: "No such user"});
 		}
-		const checkPass = await bcrypt.compare(String(password), user.account.password); 
+		const checkPass = await bcrypt.compare(password, user.account.password); 
 		if(!checkPass){
 			console.log("PAssword incorrect") ; 
 				
@@ -44,7 +44,7 @@ router.post("/signin", async (req, res)=>{
 		const token = jwt.sign({name:name, id:user._id}, "test", {expiresIn: "1h"}); 
 		console.log(user) ;
 			
-		return res.status(200).json({user: user, token: token});
+		return res.status(200).json({user, token});
 			
 	}
 	catch(error){
@@ -69,12 +69,13 @@ router.post("/signup",  async (req, res)=>{
 			}); 
 			await location.save(); 
 		}
+		// const hashedPassword =await bcrypt.hash(password, 10);
 		const user = await User.create({
 			name:name, 
 			account:{
 				email:email, 
 				mobile: mobile, 
-				password: password, 
+				password: hashedPassword, 
 			}, 
 			location:location._id, 
 			educationDetails:{
@@ -96,7 +97,7 @@ router.post("/signup",  async (req, res)=>{
 		}); 
 		console.log(user) 
 			
-		return res.status(200).json({user:user, token:token}); 
+		return res.status(200).json({user, token}); 
 			
 		
 	}
