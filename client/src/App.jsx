@@ -7,6 +7,7 @@ import { BrowserRouter, Switch, Route, Router, Link } from "react-router-dom";
 import Navigation from "./components/Navigation/Navigation.jsx";
 import Home from "./components/Home/Home.jsx";
 import Auth from "./components/Auth/Auth.jsx";
+import Settings from "./components/Settings/Settings.jsx";
 import background from "./assets/background.jpeg"
 
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
           
           <Route exact path="/" component={Home}></Route>
           <Route exact path="/auth" component={Auth}></Route>
+          <Route exact path="/settings" component={Settings}></Route>
         </Switch>
       </BrowserRouter>
     </div>

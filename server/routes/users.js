@@ -41,7 +41,7 @@ router.post("/signin", async (req, res)=>{
 				
 			return res.status(404).json({ message: "Password incorrect"});
 		}
-		const token = jwt.sign({name:name, id:user._id}, "test", {expiresIn: "1h"}); 
+		const token = jwt.sign({name:name, id:user._id}, "test", {expiresIn: "24h"}); 
 		console.log(user) ;
 			
 		return res.status(200).json({user, token});
