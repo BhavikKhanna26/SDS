@@ -64,5 +64,37 @@ export const logOut =() => async (dispatch) =>{
 	catch(error){
 		console.log(error); 
 	}
+}; 
+
+// update profile
+export const updateProfile = (formData, history) => async (dispatch) =>{
+	try{
+		const {data} = await api.updateProfile(formData); 
+		console.log(data) ; 
+		dispatch({type:"updateProfile", payload:data}); 
+		history.push("/settings"); 
+	}
+	catch(error){
+		console.log(error) ; 
+			
+	}
+		
 }
 
+
+// deliveries
+// create
+export const createDelivery = (formData, history) => async (dispatch) =>{
+	try{
+		const {data} = await api.createDelivery(formData); 
+		console.log(data) ; 
+		dispatch({type:"createDelivery", payload:data}); 
+		history.push("/"); 
+	}
+	catch(error){
+		console.log(error) ; 
+			
+	}
+		
+}
+	

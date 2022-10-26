@@ -33,6 +33,10 @@ const App = () => {
           <Route exact path="/" component={Home}></Route>
           <Route exact path="/auth" component={Auth}></Route>
           <Route exact path="/settings" component={Settings}></Route>
+          {/* <Route exact path = "/user/me" component={Profile}></Route> */}
+          {/* <Route exact path = "/user/:id" component={User}></Route> */}
+          {/* <Route exact path="/delivery/:id" component={Delivery}></Route> */}
+          
         </Switch>
       </BrowserRouter>
     </div>

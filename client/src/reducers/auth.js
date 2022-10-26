@@ -9,7 +9,7 @@ const authReducer=  (state={authData:null}, action) =>{
 		case "logOut":
 			localStorage.clear();
 			return {...state, authData:null}; 
-		case "update_profile":
+		case "updateProfile":
 			localStorage.setItem("user", JSON.stringify({...action?.payload})); 
 			return {...state, authData:action?.payload}; 
 		case "get_user":

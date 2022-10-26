@@ -15,7 +15,11 @@ const Home = () =>{
     console.log(currentUser); 
     	
     return (
-    	<div></div>
+    	<div className="h-screen w-full bg-red-200">
+            <div className="w-2/3 bg-blue-200 h-full mx-auto">
+                
+            </div>
+        </div>
     )
 }; 
 export default Home;

@@ -1,9 +1,9 @@
 import axios from "axios";
 const URL = "http://localhost:8000";
 axios.interceptors.request.use((req) => {
-    if (localStorage.getItem("profile")) {
+    if (localStorage.getItem("user")) {
         req.headers.authorization = `Bearer ${
-            JSON.parse(localStorage.getItem("profile")).token
+            JSON.parse(localStorage.getItem("user")).token
         }`;
     }
 
@@ -24,3 +24,19 @@ export const signUp = (formData) => {
         .post(URL + "/users/signup", formData)
         .catch((error) => console.log(error));
 };
+export const updateProfile = (formData) =>{
+    return axios
+        .put(URL + "/users/profile", formData)
+        .catch((error) => console.log(error)); 
+}
+
+// delivery links
+
+export const createDelivery = (formData) => {
+    // console.log(formData) ; 
+        
+    return axios
+        .post(URL + "/", formData)
+        .catch((error) => console.log(error));
+};
+    

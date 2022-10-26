@@ -3,8 +3,10 @@ import jwt from 'jsonwebtoken'
 
 const auth = async (req,res,next) =>{
 	try{
+		// console.log(req.headers.authorization) 
+			
 		const token =req.headers.authorization.split(" ")[1]
-		const isCustomAuth = token.length<500
+		const isCustomAuth = token?.length<500
 		let decodedData;
 		if(token && isCustomAuth){
 			decodedData = jwt.verify(token, 'test')
@@ -20,4 +22,4 @@ const auth = async (req,res,next) =>{
 		console.log(error)
 	}
 }
-export default auth
+export default auth; 
