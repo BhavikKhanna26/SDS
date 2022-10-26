@@ -8,6 +8,9 @@ import mongoose from "mongoose";
 
 //route imports 
 import users from "./routes/users.js"; 
+import deliveries from "./routes/delivery.js";
+
+
 //variable declartions
 const PORT = process.env.port || 8000;
 const MONGOOSE_USERNAME = "ishraaq";
@@ -34,4 +37,5 @@ mongoose
 	});
 
 app.use("/users", users); 
+app.use("/deliveries", deliveries); 
 

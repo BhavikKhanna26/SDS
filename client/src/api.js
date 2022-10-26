@@ -31,12 +31,21 @@ export const updateProfile = (formData) =>{
 }
 
 // delivery links
+export const getAllDeliveries = () => {
+    // console.log(formData) ; 
+        
+    return axios
+        .get(URL + "/deliveries/all")
+        .catch((error) => console.log(error));
+};
 
 export const createDelivery = (formData) => {
     // console.log(formData) ; 
         
     return axios
-        .post(URL + "/", formData)
+        .post(URL + "/deliveries/one", formData)
         .catch((error) => console.log(error));
 };
+    
+
     

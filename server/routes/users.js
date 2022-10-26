@@ -27,7 +27,9 @@ router.post("/signin", async (req, res) => {
 		const { name, email, mobile, password } = req.body;
 		console.log(req.body);
 
-		const user = await User.findOne({ name: name });
+		const user = await User.findOne({
+			$or: [{ name:name }, { email: email }, { mobile: mobile }],
+		});
 		if (!user) {
 			console.log("No user found");
 
@@ -78,7 +80,7 @@ router.post("/signup", async (req, res) => {
 			});
 			await location.save();
 		}
-		
+
 		const user = await User.create({
 			name: name,
 			account: {
@@ -99,7 +101,7 @@ router.post("/signup", async (req, res) => {
 		await user.save();
 		const token = jwt.sign(
 			{
-				name:name,
+				name: name,
 				id: user._id,
 			},
 			"test",
@@ -139,14 +141,16 @@ router.put("/profile", auth, async (req, res) => {
 		if (!user) {
 			return res.status(404).json({ msg: "No such user" });
 		}
-		if(newPassword){
-			const checkPass = await bcrypt.compare(oldPassword, user.account.password);
-			if(checkPass && newPassword === confirmPassword){
+		if (newPassword) {
+			const checkPass = await bcrypt.compare(
+				oldPassword,
+				user.account.password
+			);
+			if (checkPass && newPassword === confirmPassword) {
 				const hashedPassword = await bcrypt.hash(newPassword, 10);
 				user.account.password = hashedPassword;
-				await user.save(); 
+				await user.save();
 			}
-			
 		}
 		const updatedUser = await User.findOneAndUpdate(
 			{
@@ -157,7 +161,7 @@ router.put("/profile", auth, async (req, res) => {
 					email: email ? email : user.account.email,
 					mobile: mobile ? mobile : user.account.mobile,
 					pfp: pfp ? pfp : user.account.pfp,
-					password: user.password, 
+					password: user.password,
 				},
 				educationDetails: {
 					year: year ? year : user.educationDetails.year,

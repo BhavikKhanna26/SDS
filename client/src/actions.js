@@ -7,6 +7,8 @@ import store from "./index.js";
 // start loading
 export const startLoad = () => async (dispatch) =>{
 	try{
+
+			
 		dispatch({type:"startLoad"}); 
 	}
 	catch(error){
@@ -18,6 +20,7 @@ export const startLoad = () => async (dispatch) =>{
 // end loading
 export const endLoad = () => async (dispatch) =>{
 	try{
+		
 		dispatch({type:"endLoad"}); 
 	}
 	catch(error){
@@ -83,12 +86,29 @@ export const updateProfile = (formData, history) => async (dispatch) =>{
 
 
 // deliveries
+
+// get all
+
+export const getAllDeliveries = () => async (dispatch) =>{
+	try{
+		const {data} = await api.getAllDeliveries(); 
+		// console.log(data) ; 
+		dispatch({type:"get_all_deliveries", payload:data}); 
+		 
+	}
+	catch(error){
+		console.log(error) ; 
+			
+	}
+		
+}
 // create
 export const createDelivery = (formData, history) => async (dispatch) =>{
 	try{
 		const {data} = await api.createDelivery(formData); 
 		console.log(data) ; 
-		dispatch({type:"createDelivery", payload:data}); 
+		dispatch({type:"updateProfile", payload:{user:data.user, token:data.token}}); 
+		dispatch({type:"create_delivery", payload:data.delivery}); 
 		history.push("/"); 
 	}
 	catch(error){

@@ -1,17 +1,15 @@
 import mongoose from "mongoose"; 
 const DeliverySchema = mongoose.Schema({
 	for:{
-		type:mongoose.Schema.Types.ObjectId, 
-		ref:"User", 
-		required:true, 
+		rId:mongoose.Schema.Types.ObjectId, 
+		name:String, 
 	}, 
 	deliverer:{
-		type:mongoose.Schema.Types.ObjectId, 
-		ref:"User", 
-		required:true, 
+		dId:mongoose.Schema.Types.ObjectId, 
+		name:String, 
 	}, 
 	item:{
-		itemType:{
+		itemTitle:{
 			type:String, 
 			required:true, 
 		}, 
@@ -19,6 +17,15 @@ const DeliverySchema = mongoose.Schema({
 			type:String, 
 			required:true, 
 		}, 
+		img:{
+			type:String, 
+			default:"", 
+		}, 
+	}, 
+	
+	time:{
+		type:Number, 
+		required:true, 
 	}, 
 	status:{
 		type:String, 
