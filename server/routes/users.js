@@ -191,5 +191,28 @@ router.put("/profile", auth, async (req, res) => {
 		return res.status(500).json({ message: error.message });
 	}
 });
+// forgot password
+router.put("/forgot_password", async (req, res)=>{
+	try{
+		const {name, email, mobile, newPassword, confirmPassword} = req.body; 
+		const user = await User.findOne({
+			$or: [{ name:name }, { email: email }, { mobile: mobile }],
+		});
+		if (!user) {
+			console.log("No user found");
+
+			return res.status(404).json({ message: "No such user" });
+		}
+		const hashedPassword = await bcrypt.hash(newPassword, 10); 
+		user.account.password = hashedPassword; 
+		await user.save(); 
+		return res.status(200).json({message:"Password updated!"});
+			
+	}
+	catch(error){
+		console.log(error); 
+		return res.status(500).json({message:error.message});
+	}
+})
 
 export default router;

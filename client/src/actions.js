@@ -83,6 +83,21 @@ export const updateProfile = (formData, history) => async (dispatch) =>{
 	}
 		
 }
+// forgot password
+export const forgotPassword = (formData, history) => async (dispatch) =>{
+	try{
+		const {data} = await api.forgotPassword(formData); 
+		console.log(data) ; 
+		// dispatch({type:"updateProfile", payload:data}); 
+		history.push("/auth"); 
+	}
+	catch(error){
+		console.log(error) ; 
+			
+	}
+		
+}
+	
 
 
 // deliveries

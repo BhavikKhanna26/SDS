@@ -29,6 +29,17 @@ export const updateProfile = (formData) =>{
         .put(URL + "/users/profile", formData)
         .catch((error) => console.log(error)); 
 }
+export const forgotPassword = (formData) => {
+    // console.log(formData) ; 
+        
+    return axios
+        .put(URL + "/users/forgot_password", formData)
+        .catch((error) => console.log(error));
+};
+    
+
+
+
 
 // delivery links
 export const getAllDeliveries = () => {
