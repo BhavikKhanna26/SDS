@@ -28,7 +28,7 @@ router.post("/signin", async (req, res) => {
 		console.log(req.body);
 
 		const user = await User.findOne({
-			$or: [{ name:name }, { email: email }, { mobile: mobile }],
+			$or: [{ name: name }, { email: email }, { mobile: mobile }],
 		});
 		if (!user) {
 			console.log("No user found");
@@ -152,28 +152,20 @@ router.put("/profile", auth, async (req, res) => {
 				await user.save();
 			}
 		}
-		const updatedUser = await User.findOneAndUpdate(
-			{
-				_id: req.userId,
-			},
-			{
-				account: {
-					email: email ? email : user.account.email,
-					mobile: mobile ? mobile : user.account.mobile,
-					pfp: pfp ? pfp : user.account.pfp,
-					password: user.password,
-				},
-				educationDetails: {
-					year: year ? year : user.educationDetails.year,
-					department: department
-						? department
-						: user.educationDetails.department,
-					degree: degree ? degree : user.educationDetails.degree,
-				},
-			}
-		);
+		user.account = {
+			email:email || user.account.email, 
+			mobile: mobile || user.account.mobile, 
+			pfp: pfp || user.account.pfp, 
+			password: user.account.password, 
+		}; 
+		user.educationDetails= {
+			year: year || user.educationDetails.year, 
+			department: department || user.educationDetails.department, 
+			degree: degree || user.educationDetails.degree, 
+		}; 
+		await user.save(); 
 
-		console.log(updatedUser);
+		console.log(user);
 
 		const token = jwt.sign(
 			{
@@ -185,34 +177,32 @@ router.put("/profile", auth, async (req, res) => {
 				expiresIn: "24h",
 			}
 		);
-		return res.status(200).json({ user: updatedUser, token });
+		return res.status(200).json({ user, token });
 	} catch (error) {
 		console.log(error);
 		return res.status(500).json({ message: error.message });
 	}
 });
 // forgot password
-router.put("/forgot_password", async (req, res)=>{
-	try{
-		const {name, email, mobile, newPassword, confirmPassword} = req.body; 
+router.put("/forgot_password", async (req, res) => {
+	try {
+		const { name, email, mobile, newPassword, confirmPassword } = req.body;
 		const user = await User.findOne({
-			$or: [{ name:name }, { email: email }, { mobile: mobile }],
+			$or: [{ name: name }, { email: email }, { mobile: mobile }],
 		});
 		if (!user) {
 			console.log("No user found");
 
 			return res.status(404).json({ message: "No such user" });
 		}
-		const hashedPassword = await bcrypt.hash(newPassword, 10); 
-		user.account.password = hashedPassword; 
-		await user.save(); 
-		return res.status(200).json({message:"Password updated!"});
-			
+		const hashedPassword = await bcrypt.hash(newPassword, 10);
+		user.account.password = hashedPassword;
+		await user.save();
+		return res.status(200).json({ message: "Password updated!" });
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ message: error.message });
 	}
-	catch(error){
-		console.log(error); 
-		return res.status(500).json({message:error.message});
-	}
-})
+});
 
 export default router;
