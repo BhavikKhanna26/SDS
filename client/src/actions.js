@@ -122,7 +122,7 @@ export const createDelivery = (formData, history) => async (dispatch) =>{
 	try{
 		const {data} = await api.createDelivery(formData); 
 		console.log(data) ; 
-		dispatch({type:"updateProfile", payload:{user:data.user, token:data.token}}); 
+		dispatch({type:"updateProfile", payload:data.authData}); 
 		dispatch({type:"create_delivery", payload:data.delivery}); 
 		history.push("/"); 
 	}

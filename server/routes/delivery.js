@@ -14,14 +14,26 @@ const router = express.Router();
 // get all deliveries
 router.get("/all", async (req, res) => {
 	try {
+		// await Delivery.deleteMany({}); 
 		const deliveries = await Delivery.find({});
-		return res.status(200).json({ deliveries });
+
+		return res.status(200).json(deliveries);
 	} catch (error) {
 		console.log(error);
 		return res.status(500).json({ message: error.message });
 	}
 });
-
+router.delete("/all", async (req,res) =>{
+	const deliveries = await Delivery.find({}); 
+	console.log(deliveries) 
+		
+	const user = await User.findById({_id: deliveries[0].for.rId})
+	user.deliveries=[]; 
+	await user.save(); 
+	await Delivery.deleteMany({}); 
+	return res.status(200).json({user});
+		
+})
 // create dlivery
 
 router.post("/one", auth, async (req, res) => {
@@ -31,7 +43,7 @@ router.post("/one", auth, async (req, res) => {
 		if(!user){
 			return res.status(404).json({ msg: "No user"});
 		}
-		console.log(user) ;
+		// console.log(user) ;
 		// 	
 		const delivery = await Delivery.create({
 			for: {
@@ -47,13 +59,15 @@ router.post("/one", auth, async (req, res) => {
 		});
 		await delivery.save();
 		user.deliveries.push(delivery._id);
+
 		await user.save();
-		// const token = jwt.sign({ name: name, id: user._id }, "test", {
-		// 	expiresIn: "24h",
-		// });
-		// return res
-		// 	.status(200)
-		// 	.json({ user: user, token: token, delivery: delivery });
+		await user.populate(["deliveries", "ratings"]); 
+		const token = jwt.sign({ name: user.name, id: user._id }, "test", {
+			expiresIn: "24h",
+		});
+		return res
+			.status(200)
+			.json({ authData:{user: user, token: token}, delivery: delivery });
 	} catch (error) {
 		console.log(error);
 		return res.status(500).json({ message: error.message });

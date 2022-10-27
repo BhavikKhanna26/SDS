@@ -7,7 +7,7 @@ const reducer = (state={deliveries:[]} ,action) =>{
 		return {...state, delivery:action.payload}
 	}
 	else if(action.type==='create_delivery'){
-		return {...state, deliveries:[...state, action.payload]}
+		return {...state, deliveries:[...state.deliveries, action.payload]}
 	}
 	else if(action.type==='update_delivery'){
 		return {...state, deliveries:state.deliveries.map((item)=>{

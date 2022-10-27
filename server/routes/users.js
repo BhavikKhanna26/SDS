@@ -25,7 +25,7 @@ router.get("/all", async (req, res) => {
 router.post("/signin", async (req, res) => {
 	try {
 		const { name, email, mobile, password } = req.body;
-		console.log(req.body);
+		// console.log(req.body);
 
 		const user = await User.findOne({
 			$or: [{ name: name }, { email: email }, { mobile: mobile }],
@@ -35,7 +35,7 @@ router.post("/signin", async (req, res) => {
 
 			return res.status(404).json({ message: "No such user" });
 		}
-		console.log(user);
+		// console.log(user);
 
 		const checkPass = await bcrypt.compare(password, user.account.password);
 		if (!checkPass) {
@@ -46,8 +46,9 @@ router.post("/signin", async (req, res) => {
 		const token = jwt.sign({ name: name, id: user._id }, "test", {
 			expiresIn: "24h",
 		});
-		console.log(user);
-
+		// console.log(user);
+		await user.populate(["deliveries", "ratings"]); 
+		await user.save(); 
 		return res.status(200).json({ user, token });
 	} catch (error) {
 		console.log(error);

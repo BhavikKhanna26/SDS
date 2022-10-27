@@ -22,7 +22,14 @@ const DeliverySchema = mongoose.Schema({
 			default:"", 
 		}, 
 	}, 
-	
+	location:{
+		type:mongoose.Schema.Types.ObjectId, 
+		ref:"Location", 
+	}, 
+	createdOn:{
+		type:Date,
+		default:new Date(), 
+	}, 
 	time:{
 		type:Number, 
 		required:true, 

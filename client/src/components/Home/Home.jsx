@@ -14,6 +14,7 @@ import decode from "jwt-decode";
 import * as Actions from "../../actions.js";
 import "./Home.css";
 import formBackground from "../../assets/background2.jpeg";
+import noImage from "../../assets/no-image.jpg";
 
 import CloseIcon from "@material-ui/icons/Close";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
@@ -58,7 +59,18 @@ const Home = () => {
 
     const Delivery = ({ delivery }) => {
         const [hidden, setHidden] = useState(false);
-        return <div></div>;
+        return (
+            <div className="w-full h-48 bg-blue-400 flex flex-row p-5">
+                <img src={delivery.item.img || noImage}></img>
+                <div className="flex flex-col">
+                    <p>{delivery.item.itemTitle}</p>
+                    <p>{delivery.item.description}</p>
+                    <p>{delivery.createdOn}</p>
+                    <p>{delivery.price}</p>
+                    <a href={`/delivery/${delivery._id}`}>See this ....</a>
+                </div>
+            </div>
+        );
     };
     const Create = () => {
         const [showModal, setShowModal] = useState(false);
@@ -75,8 +87,8 @@ const Home = () => {
         };
         const handleSubmit = (e) => {
             e.preventDefault();
-            console.log(formData) 
-                
+            console.log(formData);
+
             dispatch(Actions.createDelivery(formData, history));
         };
 
@@ -84,7 +96,7 @@ const Home = () => {
             <div className="ml-auto">
                 <button
                     className={
-                        "w-20 w-32 rounded-full h-5/6 mt-1 text-white border-2 border-white mr-5 hover:bg-stone-800 font-bold"
+                        "w-56 rounded-full h-12 mt-1 text-white border-2 border-white mr-5 hover:bg-stone-800 font-bold"
                     }
                     onClick={() => {
                         setShowModal(true);
@@ -176,8 +188,10 @@ const Home = () => {
         return <p>Loading</p>;
     }
     return (
-        <div className="h-screen w-full ">
-            <div className="w-2/3 bg-blue-200 h-full mx-auto">
+        <div className="h-screen w-full mt-10">
+            <div className="w-2/3 bg-white h-full mx-auto p-10">
+                <p className="text-3xl text-center mb-5">Deliveries</p>
+                <hr></hr>
                 <div className="flex flex-row">
                     <Create />
                     <Filter />
