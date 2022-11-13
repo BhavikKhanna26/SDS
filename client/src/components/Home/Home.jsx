@@ -73,7 +73,7 @@ const Home = () => {
         );
     };
     const Create = () => {
-        const [showModal, setShowModal] = useState(true);
+        const [showModal, setShowModal] = useState(false);
 
         const [formData, setFormData] = useState({
             itemTitle: "",
@@ -89,7 +89,7 @@ const Home = () => {
             setFormData({ ...formData, [e.target.name]: e.target.value });
         };
         const handleSubmit = (e) => {
-            e.preventDefault();
+            // e.preventDefault();
             console.log(formData);
 
             dispatch(Actions.createDelivery(formData, history));
@@ -101,6 +101,7 @@ const Home = () => {
             const file = e.target.files[0];
             const base64 = await Actions.convertToBase64(file);
             setFormData({ ...formData, img: base64 });
+            console.log(formData);
         };
 
         return (
@@ -140,20 +141,37 @@ const Home = () => {
                                         </button>
                                     </div>
                                     <div className="flex flex-col">
-                                        <div
-                                            className="w-full h-56 mb-5"
-                                            style={{
-                                                backgroundImage: `url(${
-                                                    img.file || noImage
-                                                })`,
-                                            }}
-                                        >
-                                            <input
-                                                type="file"
-                                                accept=".jpeg, .png, .jpg"
-                                                name="imgUpload"
-                                                onChange={(e) => fileUpload(e)}
-                                            ></input>
+                                        <div className="w-full h-96 container ml-auto mr-auto object-contain block">
+                                            <img
+                                                src={img.file || noImage}
+                                                className="w-full object-scale-down h-full image"
+                                            ></img>
+                                            <div className="middle">
+                                                <div className="text ml-auto">
+                                                    <input
+                                                        id="input_file"
+                                                        className="custom-file-input hidden"
+                                                        type="file"
+                                                        accept=".jpeg, .png, .jpg"
+                                                        name="imgUpload"
+                                                        onChange={(e) =>
+                                                            fileUpload(e)
+                                                        }
+                                                    ></input>
+                                                    <button
+                                                        onClick={() =>
+                                                            document
+                                                                .getElementById(
+                                                                    "input_file"
+                                                                )
+                                                                .click()
+                                                        }
+                                                        className="bg-cyan-500 p-3 text-white font-semibold rounded-full"
+                                                    >
+                                                        Upload Image
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <label>Item Title</label>

@@ -15,7 +15,7 @@ const router = express.Router();
 router.get("/all", async (req, res) => {
 	try {
 		// await Delivery.deleteMany({});
-		const deliveries = await Delivery.find({});
+		const deliveries = await Delivery.find({}).sort({ createdOn: -1 });
 
 		return res.status(200).json(deliveries);
 	} catch (error) {
@@ -48,20 +48,19 @@ router.get("/count", async (req, res) => {
 router.get("/filter", async (req, res) => {
 	try {
 		const { priceLow, priceHigh, hoursBefore, minutesBefore } = req.body;
-		const h = hoursBefore ? Number(hoursBefore.trim()):0, m = minutesBefore? Number(minutesBefore.trim()):0;
-		const date = new Date(new Date().getTime() - (h*60 + m)*60*1000); 
+		const h = hoursBefore ? Number(hoursBefore.trim()) : 0,
+			m = minutesBefore ? Number(minutesBefore.trim()) : 0;
+		const date = new Date(new Date().getTime() - (h * 60 + m) * 60 * 1000);
 		const deliveries = await Deliveries.find({
 			price: {
 				$gte: priceLow ? Number(priceLow.trim()) : 0,
 				$lte: priceHigh ? Number(priceHigh.trim()) : 0,
 			},
-			createdOn:{
-				$lte : date, 
-			}, 
+			createdOn: {
+				$lte: date,
+			},
 		});
 		return res.status(200).json(deliveries);
-			
-
 	} catch (error) {
 		console.log(error);
 		return res.status(500).json({ message: error.message });
@@ -72,7 +71,7 @@ router.get("/filter", async (req, res) => {
 
 router.post("/one", auth, async (req, res) => {
 	try {
-		const { itemTitle, description, price, time } = req.body;
+		const { itemTitle, description, price, time, img } = req.body;
 		const user = await User.findOne({ _id: req.userId });
 		if (!user) {
 			return res.status(404).json({ msg: "No user" });
@@ -88,6 +87,7 @@ router.post("/one", auth, async (req, res) => {
 			item: {
 				itemTitle: itemTitle,
 				description: description,
+				img: img,
 			},
 			price: Number(price.trim()),
 			time: Number(time.trim()),
