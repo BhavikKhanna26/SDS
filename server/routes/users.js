@@ -25,11 +25,9 @@ router.get("/all", async (req, res) => {
 router.post("/signin", async (req, res) => {
 	try {
 		const { name, email, mobile, password } = req.body;
-		// console.log(req.body);
+		console.log(req.body);
 
-		const user = await User.findOne({
-			$or: [{ name: name }, { email: email }, { mobile: mobile }],
-		});
+		const user = await User.findOne({ name: name });
 		if (!user) {
 			console.log("No user found");
 

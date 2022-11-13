@@ -59,9 +59,30 @@ const Home = () => {
 
     const Delivery = ({ delivery }) => {
         const [hidden, setHidden] = useState(false);
+        const [rTime, setRtime] = useState(
+            new Date(delivery.createdOn).getTime() -
+                new Date().getTime() +
+                delivery.time * 60 * 1000
+        );
+        useEffect(() => {
+            const interval = setInterval(() => {
+                setRtime(rTime - 1);
+            }, 1000);
+            // console.log(rTime);
+
+            return () => clearInterval(interval);
+        }, [rTime]);
+        const handleTake = (e) => {
+            e.preventDefault();
+            if (rTime <= 0) {
+                alert("The time period for this delivery has expired");
+                return;
+            }
+            // dispatch(Actions.takeDelivery(formData, history));
+        };
         return (
             <div
-                className={`w-full h-48 bg-blue-100 flex flex-row p-5 mr-10 ${
+                className={`w-full h-auto bg-blue-100 flex flex-row p-5 mb-10 p-10 relative ${
                     hidden && "hidden"
                 }`}
             >
@@ -69,12 +90,33 @@ const Home = () => {
                     src={delivery.item.img || noImage}
                     className="mr-10 w-1/4"
                 ></img>
-                <div className="flex flex-col">
-                    <p>{delivery.item.itemTitle}</p>
-                    <p>{delivery.item.description}</p>
-                    <p>{delivery.createdOn}</p>
-                    <p>{delivery.price}</p>
-                    <a href={`/delivery/${delivery._id}`}>See this ....</a>
+                <div className="flex flex-row">
+                    <div className="flex flex-row">
+                        <div className="flex flex-col">
+                            <p>{delivery.status}</p>
+                            <p className="text-4xl">
+                                {delivery.item.itemTitle}{" "}
+                            </p>
+                            <p className="text-sm">for</p>
+                            <div className="flex flex-row text-2xl">
+                                <img />
+                                <p>{delivery.for.name}</p>
+                            </div>
+                            <p className="mt-2 mb-2">
+                                {delivery.item.description}
+                            </p>
+                            <button className="" onClick={handleTake}>
+                                Take offer
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col  text-4xl right-20 absolute">
+                        <p className={`${rTime > 0 ? "" : ""}`}>
+                            {rTime > 0 ? rTime : "Expired!"}
+                        </p>
+                        <p className="mt-10">Rs {delivery.price}</p>
+                    </div>
                 </div>
                 <div className="ml-auto">
                     <button onClick={() => setHidden(true)}>
@@ -347,7 +389,7 @@ const Home = () => {
                 </div>
                 {deliveries.length &&
                     deliveries.map((delivery) => (
-                        <Delivery delivery={delivery} />
+                        <Delivery delivery={delivery} key={delivery._id} />
                     ))}
                 <h1 className="text-2xl font-bold text-center mt-10">
                     You have reached the end of the list!

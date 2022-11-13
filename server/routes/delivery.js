@@ -156,6 +156,16 @@ router.put("/delivery/:productId/:userId", auth, async (req, res) => {
 	}
 });
 
+router.put("/take/:productId", auth, async (req, res) => {
+	try {
+		const delivery = await Delivery.findById({ _id: req.params.productId });
+		const u1 = await User.findById({ _id: req.userId });
+		const u2 = await User.findById({ _id: delivery.for.rId });
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ message: error.message });
+	}
+});
 // add delivery
 router.get("/one/:id", async (req, res) => {
 	try {
