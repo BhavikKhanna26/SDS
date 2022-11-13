@@ -50,6 +50,23 @@ export const getAllDeliveries = () => {
         .catch((error) => console.log(error));
 };
 
+
+export const filterDeliveries = (formData) => {
+    // console.log(formData) ; 
+        
+    return axios
+        .get(URL + "/filter", formData)
+        .catch((error) => console.log(error));
+};
+    
+export const getDeliveryById = (id) => {
+    // console.log(formData) ; 
+        
+    return axios
+        .get(URL + `/deliveries/one/${id}`)
+        .catch((error) => console.log(error));
+};
+    
 export const createDelivery = (formData) => {
     // console.log(formData) ; 
         

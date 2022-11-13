@@ -73,7 +73,7 @@ const Home = () => {
         );
     };
     const Create = () => {
-        const [showModal, setShowModal] = useState(false);
+        const [showModal, setShowModal] = useState(true);
 
         const [formData, setFormData] = useState({
             itemTitle: "",
@@ -81,6 +81,9 @@ const Home = () => {
             price: "",
             img: "",
             time: "",
+        });
+        const [img, setImg] = useState({
+            file: "",
         });
         const handleChange = (e) => {
             setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -91,12 +94,20 @@ const Home = () => {
 
             dispatch(Actions.createDelivery(formData, history));
         };
+        const fileUpload = async (e) => {
+            e.preventDefault();
+            // console.log(e.target.files[0]);
+            setImg({ file: URL.createObjectURL(e.target.files[0]) });
+            const file = e.target.files[0];
+            const base64 = await Actions.convertToBase64(file);
+            setFormData({ ...formData, img: base64 });
+        };
 
         return (
-            <div className="ml-auto">
+            <div className="ml-auto mr-auto">
                 <button
                     className={
-                        "w-56 rounded-full h-12 mt-1 text-white border-2 border-white mr-5 hover:bg-stone-800 font-bold"
+                        "w-56 rounded-full h-12 mt-1 text-white border-2 border-black mr-5 hover:bg-stone-800 font-bold text-black hover:text-white"
                     }
                     onClick={() => {
                         setShowModal(true);
@@ -114,11 +125,13 @@ const Home = () => {
                                     backgroundImage: `url(${formBackground})`,
                                 }}
                             >
-                                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-5/6 bg-white outline-none focus:outline-none p-5 h-full float-right">
-                                    <div className="flex flex-row">
-                                        <h1>Add delivery Item</h1>
+                                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-5/6 bg-white outline-none focus:outline-none p-5 h-full float-right overflow-y-auto">
+                                    <div className="flex flex-row mb-5">
+                                        <h1 className="text-2xl">
+                                            Add delivery Item
+                                        </h1>
                                         <button
-                                            className=""
+                                            className=" ml-auto"
                                             onClick={() =>
                                                 setShowModal(!showModal)
                                             }
@@ -127,29 +140,43 @@ const Home = () => {
                                         </button>
                                     </div>
                                     <div className="flex flex-col">
-                                        <div className="w-full h-64 bg-green-200">
-                                            <input type="file"></input>
+                                        <div
+                                            className="w-full h-56 mb-5"
+                                            style={{
+                                                backgroundImage: `url(${
+                                                    img.file || noImage
+                                                })`,
+                                            }}
+                                        >
+                                            <input
+                                                type="file"
+                                                accept=".jpeg, .png, .jpg"
+                                                name="imgUpload"
+                                                onChange={(e) => fileUpload(e)}
+                                            ></input>
                                         </div>
 
                                         <label>Item Title</label>
                                         <input
-                                            className="border-2 border-black p-2"
+                                            className="border-2 border-black p-2 mt-2"
                                             onChange={handleChange}
                                             placeholder="Food, Accessories or...."
                                             name="itemTitle"
                                         ></input>
-                                        <label>Description</label>
+                                        <label className="mt-5">
+                                            Description
+                                        </label>
                                         <textarea
-                                            className="border-2 border-black p-2"
+                                            className="border-2 border-black p-2 mt-2"
                                             onChange={handleChange}
                                             placeholder="Describe your item...."
                                             name="description"
                                         ></textarea>
-                                        <div className="flex flex-row">
+                                        <div className="flex flex-row mt-5">
                                             <div className="flex flex-col mr-10">
                                                 <label>Time</label>
                                                 <input
-                                                    className="border-2 border-black p-2"
+                                                    className="border-2 border-black p-2 mt-2"
                                                     onChange={handleChange}
                                                     placeholder="Time required...."
                                                     name="time"
@@ -158,7 +185,7 @@ const Home = () => {
                                             <div className="flex flex-col">
                                                 <label>Price</label>
                                                 <input
-                                                    className="border-2 border-black p-2"
+                                                    className="border-2 border-black p-2 mt-2"
                                                     onChange={handleChange}
                                                     placeholder="Price you will offer...."
                                                     name="price"
@@ -182,7 +209,101 @@ const Home = () => {
         );
     };
     const Filter = () => {
-        return <div></div>;
+        const [showModal, setShowModal] = useState(false);
+
+        const [formData, setFormData] = useState({
+            priceLow: "",
+            priceHigh: "",
+            hoursBefore: "",
+            minutesBefore: "",
+        });
+        const handleChange = (e) => {
+            setFormData({ ...formData, [e.target.name]: e.target.value });
+        };
+        const handleSubmit = (e) => {
+            e.preventDefault();
+            console.log(formData);
+
+            dispatch(Actions.filterDeliveries(formData));
+        };
+
+        return (
+            <div className="ml-auto mr-auto">
+                <button
+                    className={
+                        "w-56 rounded-full h-12 mt-1 text-white border-2 border-black mr-5 hover:bg-stone-800 font-bold text-black hover:text-white"
+                    }
+                    onClick={() => {
+                        setShowModal(true);
+                    }}
+                >
+                    Filter deliveries
+                </button>
+
+                {showModal ? (
+                    <>
+                        <div className="justify-center items-center flex overflow-x-hidden overflow-y-hidden fixed inset-0 z-50 outline-none focus:outline-none bg-transparent">
+                            <div
+                                className="relative w-screen my-6 mx-auto max-w-3xl h-full"
+                                style={{
+                                    backgroundImage: `url(${formBackground})`,
+                                }}
+                            >
+                                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-5/6 bg-white outline-none focus:outline-none p-5 h-full float-right">
+                                    <div className="flex flex-row">
+                                        <h1>Add delivery Item</h1>
+                                        <button
+                                            className=""
+                                            onClick={() =>
+                                                setShowModal(!showModal)
+                                            }
+                                        >
+                                            <CloseIcon />
+                                        </button>
+                                    </div>
+                                    <div className="flex flex-row">
+                                        <label className="">
+                                            Minimum Price
+                                        </label>
+                                        <input
+                                            className="border-2 border-black"
+                                            onChange={handleChange}
+                                            value={formData.priceLow}
+                                            name="priceLow"
+                                        ></input>
+                                        <input
+                                            className="border-2 border-black"
+                                            onChange={handleChange}
+                                            value={formData.priceLow}
+                                            name="priceLow"
+                                        ></input>
+                                    </div>
+                                    <div className="flex flex-row">
+                                        <label className="">Time</label>
+                                        <input
+                                            className="border-2 border-black"
+                                            onChange={handleChange}
+                                            value={formData.hoursBefore}
+                                            name="hoursBefore"
+                                        ></input>
+                                        <input
+                                            className="border-2 border-black"
+                                            onChange={handleChange}
+                                            value={formData.minutesBefore}
+                                            name="minutesBefore"
+                                        ></input>
+                                    </div>
+                                    <button className="" onClick={handleSubmit}>
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                    </>
+                ) : null}
+            </div>
+        );
     };
     if (isLoading) {
         return <p>Loading</p>;

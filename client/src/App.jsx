@@ -9,6 +9,8 @@ import Home from "./components/Home/Home.jsx";
 import Auth from "./components/Auth/Auth.jsx";
 import Settings from "./components/Settings/Settings.jsx";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword.jsx"; 
+import Delivery from "./components/Delivery/Delivery.jsx"; 
+
 import background from "./assets/background.jpeg"
 
 const App = () => {
@@ -37,7 +39,7 @@ const App = () => {
           <Route exact path="/forgot_password" component={ForgotPassword}></Route>
           {/* <Route exact path = "/user/me" component={Profile}></Route> */}
           {/* <Route exact path = "/user/:id" component={User}></Route> */}
-          {/* <Route exact path="/delivery/:id" component={Delivery}></Route> */}
+          <Route exact path="/delivery/:id" component={Delivery}></Route>
           
         </Switch>
       </BrowserRouter>

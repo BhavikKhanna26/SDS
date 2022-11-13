@@ -35,7 +35,7 @@ router.post("/signin", async (req, res) => {
 
 			return res.status(404).json({ message: "No such user" });
 		}
-		// console.log(user);
+		console.log(user);
 
 		const checkPass = await bcrypt.compare(password, user.account.password);
 		if (!checkPass) {
@@ -47,8 +47,8 @@ router.post("/signin", async (req, res) => {
 			expiresIn: "24h",
 		});
 		// console.log(user);
-		await user.populate(["deliveries", "ratings"]); 
-		await user.save(); 
+		await user.populate(["deliveries", "ratings"]);
+		await user.save();
 		return res.status(200).json({ user, token });
 	} catch (error) {
 		console.log(error);
@@ -154,17 +154,17 @@ router.put("/profile", auth, async (req, res) => {
 			}
 		}
 		user.account = {
-			email:email || user.account.email, 
-			mobile: mobile || user.account.mobile, 
-			pfp: pfp || user.account.pfp, 
-			password: user.account.password, 
-		}; 
-		user.educationDetails= {
-			year: year || user.educationDetails.year, 
-			department: department || user.educationDetails.department, 
-			degree: degree || user.educationDetails.degree, 
-		}; 
-		await user.save(); 
+			email: email || user.account.email,
+			mobile: mobile || user.account.mobile,
+			pfp: pfp || user.account.pfp,
+			password: user.account.password,
+		};
+		user.educationDetails = {
+			year: year || user.educationDetails.year,
+			department: department || user.educationDetails.department,
+			degree: degree || user.educationDetails.degree,
+		};
+		await user.save();
 
 		console.log(user);
 
@@ -200,6 +200,35 @@ router.put("/forgot_password", async (req, res) => {
 		user.account.password = hashedPassword;
 		await user.save();
 		return res.status(200).json({ message: "Password updated!" });
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ message: error.message });
+	}
+});
+
+// update pfp
+router.put("/pfp", auth, async (req, res) => {
+	try {
+		const { pfp } = req.body;
+		const user = await User.findOne({ _id: req.userId });
+
+		user.account.pfp = pfp;
+		await user.save();
+		await user.save();
+
+		console.log(user);
+
+		const token = jwt.sign(
+			{
+				name: name,
+				id: user._id,
+			},
+			"test",
+			{
+				expiresIn: "24h",
+			}
+		);
+		return res.status(200).json({ user, token });
 	} catch (error) {
 		console.log(error);
 		return res.status(500).json({ message: error.message });

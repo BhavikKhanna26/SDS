@@ -9,6 +9,7 @@ import mongoose from "mongoose";
 //route imports 
 import users from "./routes/users.js"; 
 import deliveries from "./routes/delivery.js";
+import ratings from "./routes/ratings.js"; 
 
 
 //variable declartions
@@ -16,6 +17,7 @@ const PORT = process.env.port || 8000;
 const MONGOOSE_USERNAME = "ishraaq";
 const MONGOOSE_PASSWORD = "ishraaq";
 const CONNECTION_URL = `mongodb+srv://ishraaq:ishraaq@cluster0.y7ts6ev.mongodb.net/?retryWrites=true&w=majority`;
+
 
 // creating app
 const app = express(); // initiaise the app
@@ -33,9 +35,10 @@ mongoose
 		});
 	})
 	.catch((error) => {
-		console.log(error.message);
+		console.log(error);
 	});
 
 app.use("/users", users); 
 app.use("/deliveries", deliveries); 
+app.use("/ratings", ratings); 
 

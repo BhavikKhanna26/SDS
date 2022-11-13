@@ -1,15 +1,13 @@
 import mongoose from "mongoose"; 
 const ratingSchema = mongoose.Schema({
-	from:{
-		type:mongoose.Schema.Types.ObjectId,
-		ref:"User", 
-		required:true, 
-	}, 
-	to:{
-		type:mongoose.Schema.Types.ObjectId, 
-		ref:"User", 
-		required:true, 
-	}, 
+	for: {
+		rId: mongoose.Schema.Types.ObjectId,
+		name: String,
+	},
+	to: {
+		tId: mongoose.Schema.Types.ObjectId,
+		name: String,
+	},
 	rating:{
 		type:Number, 
 		required:true, 
@@ -17,7 +15,11 @@ const ratingSchema = mongoose.Schema({
 	comment:{
 		type:String, 
 		required:true, 
-	}
+	}, 
+	createdOn: {
+		type: Date,
+		default: new Date(),
+	},
 }); 
 export default mongoose.model("Rating", ratingSchema); 
 	
