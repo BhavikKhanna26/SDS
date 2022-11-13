@@ -19,8 +19,15 @@ const CONNECTION_URL = `mongodb+srv://ishraaq:ishraaq@cluster0.y7ts6ev.mongodb.n
 // creating app
 const app = express(); // initiaise the app
 app.use(express.json()); // enable theapp to send json data
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ limit: "50mb", extended: true }));
+app.use(express.json({ limit: "50mb", extended: true }));
+app.use(express.text({ limit: "50mb", extended: true }));
+app.use(
+	express.urlencoded({
+		limit: "50mb",
+		extended: true,
+		parameterLimit: 500000,
+	})
+);
 
 app.use(cors({ origin: true, credentials: true })); //use cors
 

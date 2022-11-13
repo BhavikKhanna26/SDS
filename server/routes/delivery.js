@@ -161,6 +161,23 @@ router.put("/take/:productId", auth, async (req, res) => {
 		const delivery = await Delivery.findById({ _id: req.params.productId });
 		const u1 = await User.findById({ _id: req.userId });
 		const u2 = await User.findById({ _id: delivery.for.rId });
+		delivery.deliverer = {
+			dId: u1._id,
+			name: u1.name,
+			pfp: u1.account.name,
+		};
+		delivery.status = "En route";
+		await delivery.save();
+		u2.deliveries.map((item) => {
+			if (item._id === delivery._id) {
+				item.deliverer = delivery.deliverer;
+			}
+		});
+		await u2.save();
+		u1.deliveries.push(delivery._id);
+		u1.populate(["deliveries", "ratings"]);
+		await u1.save();
+		return res.status(200).json({ delivery: delivery, user: u1 });
 	} catch (error) {
 		console.log(error);
 		return res.status(500).json({ message: error.message });
