@@ -12,8 +12,8 @@ axios.interceptors.request.use((req) => {
 
 // user links
 export const signIn = (formData) => {
-    // console.log(formData) ; 
-        
+    // console.log(formData) ;
+
     return axios
         .post(URL + "/users/signin", formData)
         .catch((error) => console.log(error));
@@ -24,56 +24,48 @@ export const signUp = (formData) => {
         .post(URL + "/users/signup", formData)
         .catch((error) => console.log(error));
 };
-export const updateProfile = (formData) =>{
+export const updateProfile = (formData) => {
     return axios
         .put(URL + "/users/profile", formData)
-        .catch((error) => console.log(error)); 
-}
+        .catch((error) => console.log(error));
+};
 export const forgotPassword = (formData) => {
-    // console.log(formData) ; 
-        
+    // console.log(formData) ;
+
     return axios
         .put(URL + "/users/forgot_password", formData)
         .catch((error) => console.log(error));
 };
-    
-
-
-
 
 // delivery links
 export const getAllDeliveries = () => {
-    // console.log(formData) ; 
-        
+    // console.log(formData) ;
+
     return axios
         .get(URL + "/deliveries/all")
         .catch((error) => console.log(error));
 };
 
-
 export const filterDeliveries = (formData) => {
-    // console.log(formData) ; 
-        
+    // console.log(formData) ;
+
     return axios
-        .get(URL + "/filter", formData)
+        .post(URL + "/deliveries/filter", formData)
         .catch((error) => console.log(error));
 };
-    
+
 export const getDeliveryById = (id) => {
-    // console.log(formData) ; 
-        
+    // console.log(formData) ;
+
     return axios
         .get(URL + `/deliveries/one/${id}`)
         .catch((error) => console.log(error));
 };
-    
+
 export const createDelivery = (formData) => {
-    // console.log(formData) ; 
-        
+    // console.log(formData) ;
+
     return axios
         .post(URL + "/deliveries/one", formData)
         .catch((error) => console.log(error));
 };
-    
-
-    

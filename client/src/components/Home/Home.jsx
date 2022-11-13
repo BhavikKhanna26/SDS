@@ -60,14 +60,26 @@ const Home = () => {
     const Delivery = ({ delivery }) => {
         const [hidden, setHidden] = useState(false);
         return (
-            <div className="w-full h-48 bg-blue-400 flex flex-row p-5">
-                <img src={delivery.item.img || noImage}></img>
+            <div
+                className={`w-full h-48 bg-blue-100 flex flex-row p-5 mr-10 ${
+                    hidden && "hidden"
+                }`}
+            >
+                <img
+                    src={delivery.item.img || noImage}
+                    className="mr-10 w-1/4"
+                ></img>
                 <div className="flex flex-col">
                     <p>{delivery.item.itemTitle}</p>
                     <p>{delivery.item.description}</p>
                     <p>{delivery.createdOn}</p>
                     <p>{delivery.price}</p>
                     <a href={`/delivery/${delivery._id}`}>See this ....</a>
+                </div>
+                <div className="ml-auto">
+                    <button onClick={() => setHidden(true)}>
+                        <CloseIcon />
+                    </button>
                 </div>
             </div>
         );
@@ -232,7 +244,6 @@ const Home = () => {
         const [formData, setFormData] = useState({
             priceLow: "",
             priceHigh: "",
-            hoursBefore: "",
             minutesBefore: "",
         });
         const handleChange = (e) => {
@@ -262,16 +273,18 @@ const Home = () => {
                     <>
                         <div className="justify-center items-center flex overflow-x-hidden overflow-y-hidden fixed inset-0 z-50 outline-none focus:outline-none bg-transparent">
                             <div
-                                className="relative w-screen my-6 mx-auto max-w-3xl h-full"
+                                className="relative w-screen my-6 mx-auto max-w-2xl h-80"
                                 style={{
                                     backgroundImage: `url(${formBackground})`,
                                 }}
                             >
                                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-5/6 bg-white outline-none focus:outline-none p-5 h-full float-right">
-                                    <div className="flex flex-row">
-                                        <h1>Add delivery Item</h1>
+                                    <div className="flex flex-row mb-5">
+                                        <h1 className="text-3xl">
+                                            Filter deliveries
+                                        </h1>
                                         <button
-                                            className=""
+                                            className=" ml-auto"
                                             onClick={() =>
                                                 setShowModal(!showModal)
                                             }
@@ -279,39 +292,36 @@ const Home = () => {
                                             <CloseIcon />
                                         </button>
                                     </div>
-                                    <div className="flex flex-row">
-                                        <label className="">
-                                            Minimum Price
-                                        </label>
+                                    <div className="flex flex-row mb-10">
+                                        <label className="mr-10">Price</label>
                                         <input
-                                            className="border-2 border-black"
+                                            className="border border-black w-40 p-2"
                                             onChange={handleChange}
                                             value={formData.priceLow}
                                             name="priceLow"
                                         ></input>
+                                        <p className="ml-auto mr-auto">to </p>
                                         <input
-                                            className="border-2 border-black"
+                                            className="border border-black w-40 p-2"
                                             onChange={handleChange}
-                                            value={formData.priceLow}
-                                            name="priceLow"
+                                            value={formData.priceHigh}
+                                            name="priceHigh"
                                         ></input>
                                     </div>
                                     <div className="flex flex-row">
-                                        <label className="">Time</label>
+                                        <label className="mr-10">Time</label>
+
                                         <input
-                                            className="border-2 border-black"
-                                            onChange={handleChange}
-                                            value={formData.hoursBefore}
-                                            name="hoursBefore"
-                                        ></input>
-                                        <input
-                                            className="border-2 border-black"
+                                            className="border border-black  w-40 p-2"
                                             onChange={handleChange}
                                             value={formData.minutesBefore}
                                             name="minutesBefore"
                                         ></input>
                                     </div>
-                                    <button className="" onClick={handleSubmit}>
+                                    <button
+                                        className="bg-cyan-500 p-3 text-white font-semibold rounded-full hover:bg-sky-800 mt-10"
+                                        onClick={handleSubmit}
+                                    >
                                         Submit
                                     </button>
                                 </div>
@@ -327,11 +337,11 @@ const Home = () => {
         return <p>Loading</p>;
     }
     return (
-        <div className="h-screen w-full mt-10">
-            <div className="w-2/3 bg-white h-full mx-auto p-10">
+        <div className="h-auto w-full mt-10 min-h-screen">
+            <div className="w-2/3 bg-white  mx-auto p-10 h-auto flex flex-col">
                 <p className="text-3xl text-center mb-5">Deliveries</p>
                 <hr></hr>
-                <div className="flex flex-row">
+                <div className="flex flex-row mt-5 justify-center mb-10">
                     <Create />
                     <Filter />
                 </div>
@@ -339,6 +349,9 @@ const Home = () => {
                     deliveries.map((delivery) => (
                         <Delivery delivery={delivery} />
                     ))}
+                <h1 className="text-2xl font-bold text-center mt-10">
+                    You have reached the end of the list!
+                </h1>
             </div>
         </div>
     );

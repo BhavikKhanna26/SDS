@@ -45,21 +45,23 @@ router.get("/count", async (req, res) => {
 	}
 });
 
-router.get("/filter", async (req, res) => {
+router.post("/filter", async (req, res) => {
 	try {
-		const { priceLow, priceHigh, hoursBefore, minutesBefore } = req.body;
-		const h = hoursBefore ? Number(hoursBefore.trim()) : 0,
-			m = minutesBefore ? Number(minutesBefore.trim()) : 0;
-		const date = new Date(new Date().getTime() - (h * 60 + m) * 60 * 1000);
-		const deliveries = await Deliveries.find({
+		const { priceLow, priceHigh, minutesBefore } = req.body;
+		const m = minutesBefore ? Number(minutesBefore.trim()) : 0;
+		// console.log(req.body
+
+		const date = new Date(new Date().getTime() - m * 60 * 1000);
+		console.log(date);
+
+		const deliveries = await Delivery.find({
 			price: {
 				$gte: priceLow ? Number(priceLow.trim()) : 0,
 				$lte: priceHigh ? Number(priceHigh.trim()) : 0,
 			},
-			createdOn: {
-				$lte: date,
-			},
-		});
+		}).sort({ createdOn: -1 });
+		// console.log(deliveries);
+
 		return res.status(200).json(deliveries);
 	} catch (error) {
 		console.log(error);
